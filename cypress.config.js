@@ -5,7 +5,6 @@ module.exports = defineConfig({
     baseUrl: 'http://suninjuly.github.io',
     specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
     supportFile: false,
-    // Mocha is the default Cypress test runner (BDD: describe/it)
     experimentalRunAllSpecs: false,
     setupNodeEvents(on, config) {
       on('task', {

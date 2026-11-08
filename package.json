@@ -1,12 +1,14 @@
 {
   "name": "cypress-test",
   "version": "1.0.0",
-  "description": "Cypress automation for suninjuly math.html",
+  "description": "Cypress automation for suninjuly math.html and demo.opencart.cn",
   "private": true,
   "scripts": {
     "cy:open": "npx cypress open",
     "cy:run": "npx cypress run",
     "test": "npx cypress run",
+    "test:math": "npx cypress run --spec cypress/e2e/math.cy.js",
+    "test:opencart": "npx cypress run --spec cypress/e2e/opencart.cy.js",
     "cy:install": "npx cypress install"
   },
   "devDependencies": {
