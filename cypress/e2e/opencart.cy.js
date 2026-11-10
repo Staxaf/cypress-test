@@ -4,7 +4,7 @@
  *
  * 1) Navigation across project pages
  * 2) New user registration
- * 3) Extra feature: Contact Us enquiry form
+ * 3) Extra feature: switch language to French on Software page
  */
 
 const BASE = 'https://demo.opencart.cn'
@@ -42,7 +42,7 @@ describe('OpenCart demo — page navigation', () => {
       cy.url().should('include', 'demo.opencart.cn')
 
       if (heading) {
-        cy.contains('h1, h2, legend', heading).should('be.visible')
+        cy.contains('h1, h2', heading).should('be.visible')
       }
     })
   })
@@ -66,7 +66,7 @@ describe('OpenCart demo — user registration', () => {
     cy.get('#input-email').clear().type(user.email)
     cy.get('#input-password').clear().type(user.password)
 
-    // Privacy Policy agreement (Bootstrap form-switch)
+    // Privacy Policy agreement 
     cy.get('input[name="agree"]').check({ force: true })
 
     cy.get('#form-register button[type="submit"]').click()
@@ -82,26 +82,26 @@ describe('OpenCart demo — user registration', () => {
   })
 })
 
-describe('OpenCart demo — Contact Us (student choice)', () => {
-  it('submits an enquiry through the contact form', () => {
-    const stamp = Date.now()
+describe('OpenCart demo — language switch to French', () => {
+  it('changes Continue to Continuer on Software after switching to French', () => {
+    cy.visit(`${BASE}/index.php?route=product/category&${LANG}&path=17`)
+    cy.contains('h2', 'Software').should('be.visible')
 
-    cy.visit(`${BASE}/index.php?route=information/contact&${LANG}`)
-    cy.contains('h1', 'Contact Us').should('be.visible')
+    // Before switch: English label
+    cy.get('#content .btn-primary')
+      .should('be.visible')
+      .and('have.text', 'Continue')
+      .and('not.have.text', 'Continuer')
 
-    cy.get('#input-name').clear().type('Cypress Student')
-    cy.get('#input-email').clear().type(`contact.${stamp}@example.com`)
-    cy.get('#input-enquiry')
-      .clear()
-      .type('Hello, this is an automated enquiry from a Cypress lab test.')
+    // Open language dropdown and pick French
+    cy.contains('#top .dropdown', 'Language').within(() => {
+      cy.get('.dropdown-toggle').click({ force: true })
+      cy.contains('a.dropdown-item', 'French').click({ force: true })
+    })
 
-    cy.get('#form-contact button[type="submit"]').click()
-
-    // OpenCart 4 posts via AJAX and redirects to the success page
-    cy.url({ timeout: 30000 }).should('include', 'route=information/contact')
-    cy.get('#content', { timeout: 30000 }).should(
-      'contain.text',
-      'Your enquiry has been successfully sent to the store owner!'
-    )
+    cy.url({ timeout: 30000 }).should('include', 'language=fr-fr')
+    cy.get('#content .btn-primary')
+      .should('be.visible')
+      .and('have.text', 'Continuer')
   })
 })
