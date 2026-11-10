@@ -4,7 +4,7 @@
   "description": "Cypress automation for suninjuly math.html and demo.opencart.cn",
   "private": true,
   "scripts": {
-    "cy:open": "npx cypress open",
+    "cy:open": "npx cypress open --e2e",
     "cy:run": "npx cypress run",
     "test": "npx cypress run",
     "test:math": "npx cypress run --spec cypress/e2e/math.cy.js",
@@ -12,7 +12,7 @@
     "cy:install": "npx cypress install"
   },
   "devDependencies": {
-    "cypress": "^13.17.0"
+    "cypress": "^14.5.4"
   },
   "mocha": {
     "timeout": 60000

@@ -4,7 +4,6 @@ function calc(x) {
 
 describe('Robot power — math.html', () => {
   it('reads current x, computes answer, fills form and submits', () => {
-
     cy.visit('/math.html')
 
     cy.get('#input_value')
@@ -22,6 +21,7 @@ describe('Robot power — math.html', () => {
 
     cy.get('#robotCheckbox').check()
     cy.get('#robotsRule').check()
+    cy.window().then((win) => cy.stub(win, 'getHashcode').returns(1))
     cy.get('button[type="submit"]').should('not.be.disabled').click()
   })
 })
